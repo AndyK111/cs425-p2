@@ -1,21 +1,29 @@
 #include "lab.h"
-#include <stdio.h>
-#include <stdlib.h>
 
+/* #region Constants */
+/* #endregion Constants */
+/* #region Types */
+/* #endregion Types */
+/* #region Helpers */
+/* #endregion Helpers */
+/* #region Functions */
 #ifdef TEST
 #define main main_exclude
 #endif
 
-
-
-int main(void)
+int main(int argc, char *argv[])
 {
-    char *greeting = get_greeting("World");
-    if (greeting) {
-        printf("%s\n", greeting);
-        free(greeting); // Free the allocated memory for the greeting
-    } else {
-        printf("Failed to create greeting.\n");
+    transfer_configuration configuration;
+    transfer_parse_result result = parse_transfer_configuration(argc, argv, &configuration);
+    if (result != TRANSFER_PARSE_OK)
+    {
+        print_transfer_usage();
+        return result == TRANSFER_PARSE_USAGE ? 0 : 1;
     }
-    return 0;
+    if (configuration.mode == TRANSFER_SEND)
+    {
+        return run_sender_transfer(&configuration);
+    }
+    return run_receiver_transfer(&configuration);
 }
+/* #endregion Functions */
