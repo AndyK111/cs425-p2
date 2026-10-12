@@ -56,4 +56,3 @@ dkms.conf
 /.vscode/c_cpp_properties.json
 .DS_Store
 *.pdf
-cs425_relay.py
